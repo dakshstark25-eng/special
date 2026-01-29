@@ -25,7 +25,6 @@
       100% { background-position: 0% 50%; }
     }
 
-    /* FLOATING EMOJIS – SIMPLE & RELIABLE */
     .float {
       position: fixed;
       bottom: -60px;
@@ -40,7 +39,6 @@
       to { transform: translateY(-120vh); }
     }
 
-    /* MAIN CARD */
     .card {
       position: relative;
       z-index: 10;
@@ -95,7 +93,6 @@
       100% { box-shadow: 0 0 0 0 rgba(255,47,110,0); }
     }
 
-    /* OVERLAYS */
     .overlay {
       position: fixed;
       inset: 0;
@@ -136,7 +133,6 @@
 </head>
 <body>
 
-  <!-- FLOATING EMOJIS -->
   <div class="float" style="left:10%; animation-delay:0s">🌸</div>
   <div class="float" style="left:25%; animation-delay:3s">💗</div>
   <div class="float" style="left:40%; animation-delay:6s">🌷</div>
@@ -144,7 +140,6 @@
   <div class="float" style="left:70%; animation-delay:4s">🌼</div>
   <div class="float" style="left:85%; animation-delay:2s">💕</div>
 
-  <!-- MAIN CARD -->
   <div class="card" id="mainCard">
     <h1>Hey Saina</h1>
     <div class="sub">Will you be my Valentine? 💖✨</div>
@@ -154,7 +149,6 @@
     </div>
   </div>
 
-  <!-- YES PAGE -->
   <div class="overlay" id="yesPage" style="background: linear-gradient(135deg,#fff0f5,#ffe4ec)">
     <div class="overlay-card">
       <h1>🎉💗🥹</h1>
@@ -163,7 +157,6 @@
     </div>
   </div>
 
-  <!-- SAD PAGE -->
   <div class="overlay" id="sadPage" style="background: linear-gradient(135deg,#eef2f7,#d9e1f2)">
     <div class="overlay-card">
       <h1>😭 💔 😢</h1>
@@ -172,13 +165,6 @@
   </div>
 
   <script>
-    /* ===== EMAIL SETUP (EmailJS) =====
-       STEP 1: Go to https://www.emailjs.com
-       STEP 2: Create account → Add Email Service
-       STEP 3: Create Email Template with variables:
-               {{choice}}, {{count}}, {{device}}, {{datetime}}
-       STEP 4: Replace the IDs below
-    */
     const EMAILJS_PUBLIC_KEY = 'uRHE8lu3hI9VVG_Z-';
     const EMAILJS_SERVICE_ID = 'service_m3ddgn7';
     const EMAILJS_TEMPLATE_ID = 'template_hk0uorr';
@@ -186,7 +172,7 @@
     (function(){
       const s = document.createElement('script');
       s.src = 'https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js';
-      s.onload = () => emailjs.init(EMAILJS_PUBLIC_KEY);
+      s.onload = () => emailjs.init(uRHE8lu3hI9VVG_Z-);
       document.head.appendChild(s);
     })();
 
@@ -215,9 +201,9 @@
         mainCard.style.display = 'none';
         sadPage.style.display = 'flex';
 
-        // EMAIL: NO reached 14
+
         if (window.emailjs) {
-          emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+          emailjs.send(service_m3ddgn7, template_hk0uorr, {
             device: navigator.userAgent,
             datetime: new Date().toString(),
             choice: 'NO 😭',
@@ -231,9 +217,8 @@
       mainCard.style.display = 'none';
       yesPage.style.display = 'flex';
 
-      // EMAIL: YES clicked
       if (window.emailjs) {
-        emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+        emailjs.send(service_m3ddgn7, template_hk0uorr, {
             device: navigator.userAgent,
             datetime: new Date().toString(),
           choice: 'YES 💖',
@@ -245,3 +230,4 @@
   </script>
 </body>
 </html>
+
