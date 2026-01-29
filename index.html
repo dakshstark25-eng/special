@@ -1,0 +1,247 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Be My Valentine? 💖</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Poppins', Arial, sans-serif;
+      background: linear-gradient(120deg, #ffe8f1, #ffd6e8, #fff1cc, #eafff5);
+      background-size: 400% 400%;
+      animation: gradientMove 18s ease infinite;
+      overflow: hidden;
+    }
+
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* FLOATING EMOJIS – SIMPLE & RELIABLE */
+    .float {
+      position: fixed;
+      bottom: -60px;
+      font-size: 26px;
+      pointer-events: none;
+      animation: floatUp 12s linear infinite;
+      z-index: 1;
+    }
+
+    @keyframes floatUp {
+      from { transform: translateY(0); }
+      to { transform: translateY(-120vh); }
+    }
+
+    /* MAIN CARD */
+    .card {
+      position: relative;
+      z-index: 10;
+      background: rgba(255,255,255,0.97);
+      padding: 36px 30px 40px;
+      border-radius: 26px;
+      width: min(94%, 520px);
+      text-align: center;
+      box-shadow: 0 30px 70px rgba(0,0,0,0.2);
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: 40px;
+      color: #ff2f6e;
+    }
+
+    .sub {
+      font-size: 21px;
+      color: #555;
+      margin-bottom: 26px;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 18px;
+      justify-content: center;
+    }
+
+    button {
+      padding: 14px 28px;
+      font-size: 20px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .yes {
+      background: linear-gradient(135deg, #ff2f6e, #ff6f91);
+      color: white;
+      animation: pulse 2s infinite;
+    }
+
+    .no {
+      background: #f1f1f1;
+      color: #333;
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(255,47,110,.6); }
+      70% { box-shadow: 0 0 0 18px rgba(255,47,110,0); }
+      100% { box-shadow: 0 0 0 0 rgba(255,47,110,0); }
+    }
+
+    /* OVERLAYS */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 20;
+      text-align: center;
+    }
+
+    .overlay-card {
+      background: white;
+      padding: 40px 34px;
+      border-radius: 28px;
+      width: min(92%, 560px);
+      box-shadow: 0 30px 70px rgba(0,0,0,.25);
+      animation: pop .5s ease;
+    }
+
+    @keyframes pop {
+      from { transform: scale(.9); opacity: 0; }
+      to   { transform: scale(1); opacity: 1; }
+    }
+
+    .glow-name {
+      font-size: 36px;
+      font-weight: 800;
+      color: #ff2f6e;
+      animation: glow 2s infinite;
+    }
+
+    @keyframes glow {
+      0% { text-shadow: 0 0 6px rgba(255,47,110,.4); }
+      50% { text-shadow: 0 0 20px rgba(255,47,110,.9); }
+      100% { text-shadow: 0 0 6px rgba(255,47,110,.4); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- FLOATING EMOJIS -->
+  <div class="float" style="left:10%; animation-delay:0s">🌸</div>
+  <div class="float" style="left:25%; animation-delay:3s">💗</div>
+  <div class="float" style="left:40%; animation-delay:6s">🌷</div>
+  <div class="float" style="left:55%; animation-delay:1s">💖</div>
+  <div class="float" style="left:70%; animation-delay:4s">🌼</div>
+  <div class="float" style="left:85%; animation-delay:2s">💕</div>
+
+  <!-- MAIN CARD -->
+  <div class="card" id="mainCard">
+    <h1>Will you be my Valentine? 💖✨</h1>
+    <div class="sub">Hey <strong>Saina</strong>, I made this just for you 🥰</div>
+    <div class="buttons">
+      <button class="yes" id="yesBtn">Yes 💕</button>
+      <button class="no" id="noBtn">No 🙈</button>
+    </div>
+  </div>
+
+  <!-- YES PAGE -->
+  <div class="overlay" id="yesPage" style="background: linear-gradient(135deg,#fff0f5,#ffe4ec)">
+    <div class="overlay-card">
+      <h1>YAYYY!!! 🎉💗🥹</h1>
+      <div class="glow-name">Saina 💖</div>
+      <p>You just made my whole day 💌✨</p>
+    </div>
+  </div>
+
+  <!-- SAD PAGE -->
+  <div class="overlay" id="sadPage" style="background: linear-gradient(135deg,#eef2f7,#d9e1f2)">
+    <div class="overlay-card">
+      <h1>😭 💔 😢</h1>
+      <p>🥺 😞 😭 💔</p>
+    </div>
+  </div>
+
+  <script>
+    /* ===== EMAIL SETUP (EmailJS) =====
+       STEP 1: Go to https://www.emailjs.com
+       STEP 2: Create account → Add Email Service
+       STEP 3: Create Email Template with variables:
+               {{choice}}, {{count}}, {{device}}, {{datetime}}
+       STEP 4: Replace the IDs below
+    */
+    const EMAILJS_PUBLIC_KEY = 'uRHE8lu3hI9VVG_Z-';
+    const EMAILJS_SERVICE_ID = 'service_m3ddgn7';
+    const EMAILJS_TEMPLATE_ID = 'template_hk0uorr';
+
+    (function(){
+      const s = document.createElement('script');
+      s.src = 'https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js';
+      s.onload = () => emailjs.init(EMAILJS_PUBLIC_KEY);
+      document.head.appendChild(s);
+    })();
+
+
+    const noBtn = document.getElementById('noBtn');
+    const yesBtn = document.getElementById('yesBtn');
+    const mainCard = document.getElementById('mainCard');
+    const yesPage = document.getElementById('yesPage');
+    const sadPage = document.getElementById('sadPage');
+
+    let noClicks = 0;
+
+    noBtn.addEventListener('click', () => {
+      noClicks++;
+
+      yesBtn.style.transform = `scale(${1 + Math.min(noClicks * 0.12, 1.2)})`;
+      noBtn.style.transform  = `scale(${Math.max(0.6, 1 - noClicks * 0.04)})`;
+
+      if (noClicks === 1) noBtn.textContent = 'Are you sure? 😳';
+      else if (noClicks === 3) noBtn.textContent = 'Really sure? 🥺';
+      else if (noClicks === 6) noBtn.textContent = 'Do you really want to do this? 😭';
+      else if (noClicks === 10) noBtn.textContent = 'This hurts… 💔🥲';
+
+      if (noClicks >= 14) {
+        document.querySelectorAll('.float').forEach(e => e.style.display = 'none');
+        mainCard.style.display = 'none';
+        sadPage.style.display = 'flex';
+
+        // EMAIL: NO reached 14
+        if (window.emailjs) {
+          emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+            device: navigator.userAgent,
+            datetime: new Date().toString(),
+            choice: 'NO 😭',
+            count: noClicks
+          });
+        }
+      }
+    });
+
+    yesBtn.addEventListener('click', () => {
+      mainCard.style.display = 'none';
+      yesPage.style.display = 'flex';
+
+      // EMAIL: YES clicked
+      if (window.emailjs) {
+        emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+            device: navigator.userAgent,
+            datetime: new Date().toString(),
+          choice: 'YES 💖',
+          count: noClicks
+        });
+      }
+
+    });
+  </script>
+</body>
+</html>
